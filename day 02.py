@@ -1,5 +1,18 @@
 import os
 import logging
+def test_line2(line):
+    diffs = [line[i]-line[i+1] for i in (range(len(line)-1))]
+    if any(diff<1 or diff>3 for diff in diffs):
+        return False
+    # Determine if the sequence is strictly increasing or decreasing
+    is_increasing = all(diff > 0 for diff in diffs)
+    is_decreasing = all(diff < 0 for diff in diffs)
+
+    # The levels must be all increasing or all decreasing
+    if is_increasing or is_decreasing:
+        return True
+    return False
+    
 def test_line(line):
     candidate =True
     direction = None
