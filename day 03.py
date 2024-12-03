@@ -8,14 +8,14 @@ def eval_mul(mul):
 def part1(line):
     result = 0
     pattern=r'mul\(\d+,\d+\)'
-    print(re.findall(pattern,line))
+    #print(re.findall(pattern,line))
     for match in re.findall(pattern,line):
         result +=eval_mul(match)
     return result
 def part2(line):
     result = 0
     pattern=r"mul\(\d+,\d+\)|do\(\)|don't\(\)"
-    print(re.findall(pattern,line))
+    #print(re.findall(pattern,line))
     do_enable = True
     for match in re.findall(pattern,line):
         if match=='do()':
