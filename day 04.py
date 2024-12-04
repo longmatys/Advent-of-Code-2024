@@ -62,7 +62,7 @@ def main():
     input_file = script_name.split('.')[0]+'.input.txt'
     with open(input_file) as f:
         data = [ line.strip() for line in f.readlines()]
-        print(data)
+        
         part1(data)
         part2(data)
         
