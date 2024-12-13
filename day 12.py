@@ -19,7 +19,7 @@ def get_parent(point,areas):
 def get_neighbors(data,point):
     neighbors = []
     for dir in dirs:
-            if point[1]+dir[1] < 0 or point[0]+dir[0] < 0 or point[1]+dir[1] >= len(data) or point[1]+dir[1] >= len(data[0]):
+            if point[1]+dir[1] < 0 or point[0]+dir[0] < 0 or point[1]+dir[1] >= len(data) or point[0]+dir[0] >= len(data[0]):
                  continue
             neighbors.append((point[0]+dir[0],point[1]+dir[1]))
     return neighbors
@@ -27,6 +27,69 @@ def reset_parent(areas,children_area,parent_point):
     for child in children_area["children"]:
         areas[child]["parent"] = parent_point
     children_area["parent"] = parent_point
+DATA=0
+AREA_ID = 1
+PERIMETER = 2
+def flood(map_data,point,area_id):
+    map_data[point[1]][point[0]][AREA_ID]=area_id
+    neighbors = get_neighbors(map_data,point)
+    map_data[point[1]][point[0]][PERIMETER]=4
+    try:
+        for neighbor in neighbors:
+            if map_data[point[1]][point[0]][DATA]==map_data[neighbor[1]][neighbor[0]][DATA]:
+                map_data[point[1]][point[0]][PERIMETER]-=1
+        for neighbor in neighbors:
+            if map_data[point[1]][point[0]][DATA]==map_data[neighbor[1]][neighbor[0]][DATA] and map_data[neighbor[1]][neighbor[0]][AREA_ID]==-1:
+                flood(map_data,neighbor,area_id)
+    except:
+        ""
+def get_value(map_data,point,dir):
+    if point[0]+dir[0]<0 or point[1]+dir[1]<0 or point[0]+dir[0]>=len(map_data[0]) or point[1]+dir[1]>=len(map_data):
+        return -1
+    return map_data[point[1]+dir[1]][point[0]+dir[0]][AREA_ID]
+# ECD
+# ECC
+# EEC
+def count_it(map_data,cache):
+    #[last_value,[last_edge_left,last_edge_right]]
+    last = [[None,[None,None]],[None,[None,None]]]
+    
+    for y_i,y in enumerate(map_data):
+        for x_i,x in enumerate(y):            
+            # if get_value(map_data,(x_i,y_i),(0,-1)) != map_data[y_i][x_i][AREA_ID] and last[0]!=map_data[y_i][x_i][AREA_ID]:
+            #     cache[map_data[y_i][x_i][AREA_ID]][2]+=1
+            # if get_value(map_data,(x_i,y_i),(0,1)) != map_data[y_i][x_i][AREA_ID] and last[0]!=map_data[y_i][x_i][AREA_ID]:
+            #     cache[map_data[y_i][x_i][AREA_ID]][2]+=1
+            # last[0]=map_data[y_i][x_i][AREA_ID]
+            edge_up = get_value(map_data,(y_i,x_i),(0,-1)) != map_data[x_i][y_i][AREA_ID]
+            edge_down = get_value(map_data,(y_i,x_i),(0,1)) != map_data[x_i][y_i][AREA_ID]
+            same_as_left = last[1][0]!=map_data[x_i][y_i][AREA_ID] 
+            if edge_up and same_as_left:
+                cache[map_data[x_i][y_i][AREA_ID]][2]+=1
+            if edge_down  and same_as_left:
+                cache[map_data[x_i][y_i][AREA_ID]][2]+=1
+            last[1]=[map_data[x_i][y_i][AREA_ID],[edge_up,edge_down]]
+            cache[x[AREA_ID]][0]+=1
+            cache[x[AREA_ID]][1]+=x[PERIMETER]
+        last = [None,None]
+            
+def work_v2(data):
+    cache={}
+    map_data = []
+    for y_i,y in enumerate(data):
+        map_data.append([])
+        for x_i,x in enumerate(y):
+            map_data[-1].append([x,-1,0])
+    area_id = 0
+    for y_i,y in enumerate(map_data):
+        for x_i,x in enumerate(y):
+            if x[AREA_ID]==-1:
+                cache[area_id]=[0,0,0]
+                flood(map_data,(x_i,y_i),area_id)
+                area_id+=1
+    count_it(map_data,cache)
+    suma = sum([a*p for a,p,p2 in cache.values()])
+    print("\nPart 1:",suma)
 def work(data):
     areas = {}
     map_data = [[{"value":data[y_i][x_i], "domain":(y_i,x_i), "area":0, "perimeter":0}] for y_i,y in enumerate(data) for x_i,x in enumerate(y)]
@@ -99,6 +162,6 @@ def main():
     
     with open(input_file) as f:
         data = [line.strip() for line in f]
-        work(data)
+        work_v2(data)
 if __name__ == '__main__':
     main()
