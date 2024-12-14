@@ -34,15 +34,15 @@ def flood(map_data,point,area_id):
     map_data[point[1]][point[0]][AREA_ID]=area_id
     neighbors = get_neighbors(map_data,point)
     map_data[point[1]][point[0]][PERIMETER]=4
-    try:
-        for neighbor in neighbors:
-            if map_data[point[1]][point[0]][DATA]==map_data[neighbor[1]][neighbor[0]][DATA]:
-                map_data[point[1]][point[0]][PERIMETER]-=1
-        for neighbor in neighbors:
-            if map_data[point[1]][point[0]][DATA]==map_data[neighbor[1]][neighbor[0]][DATA] and map_data[neighbor[1]][neighbor[0]][AREA_ID]==-1:
-                flood(map_data,neighbor,area_id)
-    except:
-        ""
+    
+    for neighbor in neighbors:
+        if map_data[point[1]][point[0]][DATA]==map_data[neighbor[1]][neighbor[0]][DATA]:
+            map_data[point[1]][point[0]][PERIMETER]-=1
+    for neighbor in neighbors:
+        if map_data[point[1]][point[0]][DATA]==map_data[neighbor[1]][neighbor[0]][DATA] and map_data[neighbor[1]][neighbor[0]][AREA_ID]==-1:
+            flood(map_data,neighbor,area_id)
+
+
 def get_value(map_data,point,dir):
     if point[0]+dir[0]<0 or point[1]+dir[1]<0 or point[0]+dir[0]>=len(map_data[0]) or point[1]+dir[1]>=len(map_data):
         return -1
@@ -51,27 +51,60 @@ def get_value(map_data,point,dir):
 # ECC
 # EEC
 def count_it(map_data,cache):
-    #[last_value,[last_edge_left,last_edge_right]]
-    last = [[None,[None,None]],[None,[None,None]]]
+    
     
     for y_i,y in enumerate(map_data):
-        for x_i,x in enumerate(y):            
+        for x_i,x in enumerate(y):    
+            value = get_value(map_data,(x_i,y_i),(0,0))
+            value_left = get_value(map_data,(x_i,y_i),(-1,0))
+            value_right = get_value(map_data,(x_i,y_i),(1,0))
+            value_down = get_value(map_data,(x_i,y_i),(0,1))
+            value_down_left = get_value(map_data,(x_i,y_i),(-1,1))
+            value_down_right = get_value(map_data,(x_i,y_i),(1,1))
+            if value != value_left:
+                #there is fence up
+                if value_down == -1 or \
+                    value_down != value or \
+                    value_down == value_down_left:
+                    #yes, current upper line ends
+                    cache[map_data[y_i][x_i][AREA_ID]][2]+=1
+            if value != value_right:
+                #there is fence up
+                if value_down == -1 or \
+                    value_down != value or \
+                    value_down == value_down_right:
+                    #yes, current bottom line ends
+                    cache[map_data[y_i][x_i][AREA_ID]][2]+=1        
             # if get_value(map_data,(x_i,y_i),(0,-1)) != map_data[y_i][x_i][AREA_ID] and last[0]!=map_data[y_i][x_i][AREA_ID]:
             #     cache[map_data[y_i][x_i][AREA_ID]][2]+=1
             # if get_value(map_data,(x_i,y_i),(0,1)) != map_data[y_i][x_i][AREA_ID] and last[0]!=map_data[y_i][x_i][AREA_ID]:
             #     cache[map_data[y_i][x_i][AREA_ID]][2]+=1
             # last[0]=map_data[y_i][x_i][AREA_ID]
-            edge_up = get_value(map_data,(y_i,x_i),(0,-1)) != map_data[x_i][y_i][AREA_ID]
-            edge_down = get_value(map_data,(y_i,x_i),(0,1)) != map_data[x_i][y_i][AREA_ID]
-            same_as_left = last[1][0]!=map_data[x_i][y_i][AREA_ID] 
-            if edge_up and same_as_left:
-                cache[map_data[x_i][y_i][AREA_ID]][2]+=1
-            if edge_down  and same_as_left:
-                cache[map_data[x_i][y_i][AREA_ID]][2]+=1
-            last[1]=[map_data[x_i][y_i][AREA_ID],[edge_up,edge_down]]
+            
+            value = get_value(map_data,(y_i,x_i),(0,0))
+            value_up = get_value(map_data,(y_i,x_i),(0,-1))
+            value_down = get_value(map_data,(y_i,x_i),(0,1))
+            value_right = get_value(map_data,(y_i,x_i),(1,0))
+            value_right_up = get_value(map_data,(y_i,x_i),(1,-1))
+            value_right_down = get_value(map_data,(y_i,x_i),(1,1))
+            if value != value_up:
+                #there is fence up
+                if value_right == -1 or \
+                    value_right != value or \
+                    value_right == value_right_up:
+                    #yes, current upper line ends
+                    cache[map_data[x_i][y_i][AREA_ID]][2]+=1
+            if value != value_down:
+                #there is fence up
+                if value_right == -1 or \
+                    value_right != value or \
+                    value_right == value_right_down:
+                    #yes, current bottom line ends
+                    cache[map_data[x_i][y_i][AREA_ID]][2]+=1    
+            
             cache[x[AREA_ID]][0]+=1
             cache[x[AREA_ID]][1]+=x[PERIMETER]
-        last = [None,None]
+       
             
 def work_v2(data):
     cache={}
@@ -88,8 +121,9 @@ def work_v2(data):
                 flood(map_data,(x_i,y_i),area_id)
                 area_id+=1
     count_it(map_data,cache)
-    suma = sum([a*p for a,p,p2 in cache.values()])
-    print("\nPart 1:",suma)
+    suma1 = sum([a*p for a,p,p2 in cache.values()])
+    suma2 = sum([a*p2 for a,p,p2 in cache.values()])
+    print("\nPart 1:",suma1,"\nPart 2:",suma2)
 def work(data):
     areas = {}
     map_data = [[{"value":data[y_i][x_i], "domain":(y_i,x_i), "area":0, "perimeter":0}] for y_i,y in enumerate(data) for x_i,x in enumerate(y)]
