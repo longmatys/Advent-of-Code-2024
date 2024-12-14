@@ -47,9 +47,7 @@ def get_value(map_data,point,dir):
     if point[0]+dir[0]<0 or point[1]+dir[1]<0 or point[0]+dir[0]>=len(map_data[0]) or point[1]+dir[1]>=len(map_data):
         return -1
     return map_data[point[1]+dir[1]][point[0]+dir[0]][AREA_ID]
-# ECD
-# ECC
-# EEC
+
 def count_it(map_data,cache):
     
     
@@ -74,12 +72,7 @@ def count_it(map_data,cache):
                     value_down != value or \
                     value_down == value_down_right:
                     #yes, current bottom line ends
-                    cache[map_data[y_i][x_i][AREA_ID]][2]+=1        
-            # if get_value(map_data,(x_i,y_i),(0,-1)) != map_data[y_i][x_i][AREA_ID] and last[0]!=map_data[y_i][x_i][AREA_ID]:
-            #     cache[map_data[y_i][x_i][AREA_ID]][2]+=1
-            # if get_value(map_data,(x_i,y_i),(0,1)) != map_data[y_i][x_i][AREA_ID] and last[0]!=map_data[y_i][x_i][AREA_ID]:
-            #     cache[map_data[y_i][x_i][AREA_ID]][2]+=1
-            # last[0]=map_data[y_i][x_i][AREA_ID]
+                    cache[map_data[y_i][x_i][AREA_ID]][2]+=1   
             
             value = get_value(map_data,(y_i,x_i),(0,0))
             value_up = get_value(map_data,(y_i,x_i),(0,-1))
@@ -124,70 +117,7 @@ def work_v2(data):
     suma1 = sum([a*p for a,p,p2 in cache.values()])
     suma2 = sum([a*p2 for a,p,p2 in cache.values()])
     print("\nPart 1:",suma1,"\nPart 2:",suma2)
-def work(data):
-    areas = {}
-    map_data = [[{"value":data[y_i][x_i], "domain":(y_i,x_i), "area":0, "perimeter":0}] for y_i,y in enumerate(data) for x_i,x in enumerate(y)]
-    for y_i,line in enumerate(data):
-        for x_i,el in enumerate(line):
-            
-            z = {"domain":(y_i,x_i), "area":1, "perimeter":4, "children":[], "parent":None}
-            
-            
-            for neighbor in get_neighbors(data,(x_i,y_i)):
-                same_value_neighbors = data[neighbor[1]][neighbor[0]] == el
-                if same_value_neighbors:
-                    #Same neighbor, so one fence less and one area more
-                    z["perimeter"] -=1
-                    
-                if neighbor_area:=areas.get(neighbor):
-                    #i am interested in only processed squares
-                    if same_value_neighbors:
-                        #they are the same
-                        
-                        parent_point = get_parent(neighbor,areas)
-                        if parent_area := areas.get(parent_point):
-                            #neighbor already has some area
-                            if z["parent"]:
-                                #i also have already a parent
-                                areas[z["parent"]]["area"]+=parent_area["area"]
-                                areas[z["parent"]]["fence"]+=parent_area["fence"]
-                                areas[z["parent"]]["children"]+=parent_area["children"]+[parent_point]
-                                reset_parent(areas,parent_area["children"],z["parent"])
-                                
-                            else:
-                                #i dont have a parent, i will take this one
-                                z["domain"] = neighbor_area["domain"]
-                                z["parent"] = neighbor_area["parent"] if neighbor_area["parent"] else neighbor
-                                z["perimeter"] += parent_area["perimeter"]
-                                z["area"] += parent_area["area"]
-                                parent_area["children"].append((y_i,x_i))
-                        else:
-                            #neighbor does not have parent
-                            ""
-                    else:
-                        # Different value naighbors
-                        ""
-                else:
-                    # Unprocessed squares
-                    ""
 
-                                
-
-                    
-                    
-                print(x_i,y_i,el, neighbor)
-            if z["parent"]:
-                areas[z["parent"]]["area"] = z["area"]
-                areas[z["parent"]]["perimeter"] = z["perimeter"]
-                ""
-            else:
-                areas[(x_i,y_i)] = z
-                
-                
-            
-            
-
-    print(map_data)
 def main():
 # Get the name of the Python script
     logging.basicConfig(level=logging.DEBUG, format='%(funcName)s (%(lineno)d): %(message)s')
