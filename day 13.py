@@ -1,7 +1,6 @@
 import os
 import logging
 import re
-import math
 import tqdm
 
 from sympy import symbols, Eq, solve
@@ -10,24 +9,27 @@ from sympy import symbols, Eq, solve
 BUTTON_A_COST = 3
 BUTTON_B_COST = 1
 PART2 = 10000000000000
-def work2(button_a,button_b,prize):
+
+
+def work2(button_a, button_b, prize):
     a, b = symbols('a b', integer=True)
     # Equations for X and Y
     eq1 = Eq(button_a[0] * a + button_b[0] * b, prize[0])  # X
     eq2 = Eq(button_a[1] * a + button_b[1] * b, prize[1])  # Y
     # Solve equations with general solution
     solutions = solve((eq1, eq2), (a, b), dict=True)
-    assert len(solutions)<=1, "I expect 1 solution at most"
+    assert len(solutions) <= 1, "I expect 1 solution at most"
     if len(solutions):
         result = solutions[0][a]*BUTTON_A_COST+solutions[0][b]*BUTTON_B_COST
         return result
     return None
-    
-def work(button_a,button_b,prize):
+
+
+def work(button_a, button_b, prize):
     
     result = set()
     for x in range(100):
-        result.update( [(x*BUTTON_A_COST+y*BUTTON_B_COST,x,y)  for y in range(100) if (button_a[0]*x+button_b[0]*y==prize[0]) and (button_a[1]*x+button_b[1]*y==prize[1])])
+        result.update([(x*BUTTON_A_COST+y*BUTTON_B_COST,x,y)  for y in range(100) if (button_a[0]*x+button_b[0]*y==prize[0]) and (button_a[1]*x+button_b[1]*y==prize[1])])
         
     if len(result):
         return list(result)[0][0]

@@ -17,4 +17,18 @@ As i am curious about python there are some authors who published their python w
 - [Day 16](day%2016.py)
   - how to work with priority queue [heapq](https://docs.python.org/3/library/heapq.html) in python - super useful for path finding problems
   - Instead of recursion i have used loop
-  
+- [Day 17](day%2017.py)
+  - nice example of FSM (Finite state machine) - like real computer!
+  - I have also tried brute force process, but `10^14` is way too much to try
+  - Quite interesting was that there were 6 different solutions
+  - Part 2 was quite challenging until i have created the program process
+```
+b = a % 8
+b = b ^ 1
+c = math.floor(a / (2**b))
+b = b ^ 5
+b = b ^ c
+out = b % 8
+a = math.floor(a/2**3)
+```
+Now it is obvious that variable a is only from range `[a_desired * 8, a_desired * 8 + 8]`
