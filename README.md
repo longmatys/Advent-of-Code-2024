@@ -22,10 +22,6 @@ As i am curious about python there are some authors who published their python w
   - I have also tried brute force process, but `10^14` is way too much to try
   - Quite interesting was that there were 6 different solutions
   - Part 2 was quite challenging until i have created the program process
-- [Day 19](day%2019.py)
-  - very nice example of recursion, i tried stack based solution, but there are so many same queries that it does not end in time
-  - after change to recursion solution a adapt to cache results it finished in seconds
-
 ```python
 b = a % 8
 b = b ^ 1
@@ -35,5 +31,14 @@ b = b ^ c
 out = b % 8
 a = math.floor(a/2**3)
 ```
+- [Day 18](day%2018.py)
+  - Another maze movement
+  - just another search of shortest path - so again i have tried priority queue solution
+  - quite interesting I had to implement a duplicit entries protection otherwise it did not finish in timely manner
+- [Day 19](day%2019.py)
+  - very nice example of recursion, i tried stack based solution, but there are so many same queries that it does not end in time
+  - after change to recursion solution a adapt to cache results it finished in seconds
+
+
 
 Now it is obvious that variable a is only from range `[a_desired * 8, a_desired * 8 + 8]`
