@@ -38,6 +38,14 @@ a = math.floor(a/2**3)
 - [Day 19](day%2019.py)
   - very nice example of recursion, i tried stack based solution, but there are so many same queries that it does not end in time
   - after change to recursion solution a adapt to cache results it finished in seconds
+- [Day 20](day%20.py)
+  - yet another walking map problem
+  - i have a real struggle with this one part 2 and i have taken inspiration from [HyperNeutrino](https://www.youtube.com/watch?v=tWhwcORztSY)
+    - the idea is that important is **the starting point** and **the ending point** (not the path anymore) So we iterate through the distance (1-20) and 
+    divide it to the x and y coordinate
+    - i look at the difference of distance map, so no duplicates
+    - surprisingly it is really fast!
+  - As there is always a step of 1 priority q (heapq) is not needed and deque would be sufficient
 
 
 
