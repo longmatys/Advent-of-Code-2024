@@ -22,6 +22,9 @@ As i am curious about python there are some authors who published their python w
   - I have also tried brute force process, but `10^14` is way too much to try
   - Quite interesting was that there were 6 different solutions
   - Part 2 was quite challenging until i have created the program process
+- [Day 19](day%2019.py)
+  - very nice example of recursion, i tried stack based solution, but there are so many same queries that it does not end in time
+  - after change to recursion solution a adapt to cache results it finished in seconds
 
 ```python
 b = a % 8

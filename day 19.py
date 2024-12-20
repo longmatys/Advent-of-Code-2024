@@ -7,12 +7,15 @@ from functools import cache
 """
 
 options_map = {}
+
+
 def parse_options(options):
     for opt in options:
         opt_v = options_map.get(opt[0], [])
         opt_v.append(opt)
         options_map[opt[0]] = opt_v
     return options_map
+
 
 @cache
 def count_it(line, i):
@@ -24,11 +27,14 @@ def count_it(line, i):
             if line[-i:].startswith(variant):
                 res += count_it(line, i - len(variant))
     return res
+
+
 def work2(data):
     result = []
     for line in tqdm.tqdm(data):
         result.append(count_it(line, len(line)))
     return result
+
 
 def work(data, options_map):
     print(options_map)
@@ -47,7 +53,7 @@ def work(data, options_map):
                     if line[-item_i:].startswith(variant):
                         heapq.heappush(heap, item_i - len(variant))
             print(len(heap))
-        print(ret,line)
+        print(ret, line)
         result.append(ret)
     return result
 
@@ -67,8 +73,8 @@ def main():
             data.append(line)
     parse_options(options)
     result = work2(data)
-    print('Part 1:', len([ x for x in result if x]))
-    print('Part 2:', sum([ x for x in result if x]))
+    print('Part 1:', len([x for x in result if x]))
+    print('Part 2:', sum([x for x in result if x]))
 
 
 if __name__ == '__main__':
