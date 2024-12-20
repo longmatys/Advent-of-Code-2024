@@ -22,7 +22,8 @@ As i am curious about python there are some authors who published their python w
   - I have also tried brute force process, but `10^14` is way too much to try
   - Quite interesting was that there were 6 different solutions
   - Part 2 was quite challenging until i have created the program process
-```
+
+```python
 b = a % 8
 b = b ^ 1
 c = math.floor(a / (2**b))
@@ -31,4 +32,5 @@ b = b ^ c
 out = b % 8
 a = math.floor(a/2**3)
 ```
+
 Now it is obvious that variable a is only from range `[a_desired * 8, a_desired * 8 + 8]`
