@@ -11,6 +11,7 @@ As i am curious about python there are some authors who published their python w
 - [Peter Cullen Burbery](https://github.com/PeterCullenBurbery/advent-of-code-002/tree/420dc67bf433fb11c1ada8f331d7f0b4587c3ef9/jupyter-notebook-python/2024)
 - [BarrensZeppelin 2023 so far](https://github.com/BarrensZeppelin/adventofcode2023)
 - [JonathanPaulson full 2024](https://github.com/jonathanpaulson/AdventOfCode/tree/master/2024)
+- [HyperNeutrino](https://www.youtube.com/watch?v=tWhwcORztSY)
 
 ## Interesting lessons learned
 
@@ -38,15 +39,17 @@ a = math.floor(a/2**3)
 - [Day 19](day%2019.py)
   - very nice example of recursion, i tried stack based solution, but there are so many same queries that it does not end in time
   - after change to recursion solution a adapt to cache results it finished in seconds
-- [Day 20](day%20.py)
+  - Now it is obvious that variable a is only from range `[a_desired * 8, a_desired * 8 + 8]`
+- [Day 20](day%2020.py)
   - yet another walking map problem
   - i have a real struggle with this one part 2 and i have taken inspiration from [HyperNeutrino](https://www.youtube.com/watch?v=tWhwcORztSY)
     - the idea is that important is **the starting point** and **the ending point** (not the path anymore) So we iterate through the distance (1-20) and 
     divide it to the x and y coordinate
+    - dx, dy are just outline points of diamond with the given radius
     - i look at the difference of distance map, so no duplicates
     - surprisingly it is really fast!
   - As there is always a step of 1 priority q (heapq) is not needed and deque would be sufficient
+- [Day 21](day%2021.py)
+  - i have a hard time again, it was because it encodes itself multiple times so i needed to keep track of all posibilities of paths between any keys on the keyboard
+  - Main point is that there must be again `@cache` mechanism otherwise it would not end in time. This also impose recursive aproach and not a loop one as there are many duplicit calculations
 
-
-
-Now it is obvious that variable a is only from range `[a_desired * 8, a_desired * 8 + 8]`
