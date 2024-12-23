@@ -52,4 +52,13 @@ a = math.floor(a/2**3)
 - [Day 21](day%2021.py)
   - i have a hard time again, it was because it encodes itself multiple times so i needed to keep track of all posibilities of paths between any keys on the keyboard
   - Main point is that there must be again `@cache` mechanism otherwise it would not end in time. This also impose recursive aproach and not a loop one as there are many duplicit calculations
-
+- [Day 22](day%2022.py)
+  - easy task, nothing special
+- [Day 23](day%2023.py)
+  - now it is getting interesting
+  - This is about unoriented graph. I chose networkx module to make life with graphs easier
+  - First task was about finding cycles. Unfortunately builtin function `cycle_basis` finds only subset: *A cycle basis is a minimal set of cycles from which all other cycles in the graph can be generated*
+  - Fortunately networkx made my life a lot easier as it understands nodes and edges
+  - Yet again itertools combinations was handy - bruteforce a node and every combination of other two nodes. Sort it and put in set to avoid duplicates
+  - I also used visualisation to show the graph itself
+  - Part 2 was just about largest full-mesh in graph, this is called **clique**. Networkx has builtin support for finding cliques, so only thing was to find the largest
