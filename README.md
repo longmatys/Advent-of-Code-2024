@@ -63,14 +63,16 @@ a = math.floor(a/2**3)
   - I also used visualisation to show the graph itself
   - Part 2 was just about largest full-mesh in graph, this is called **clique**. Networkx has builtin support for finding cliques, so only thing was to find the largest
 - [Day 24](day%2024.py)
-  - this part 2 was hard. I have to figure out what actually is binary add
+  - this part 2 was hard ( I ended up with [HyperNeutrino solution](https://www.youtube.com/watch?v=SU6lp6wyd3I)). I have to figure out what actually is binary add
   - then i tried these operations from Z value and then its components
   - first to check the operation and if it was valid, then components
   - it ended where there was an error and i had to find out what violates it and close X and Y ops will tell what is wrong - or expected
-```
-x10 AND y10 -> C_I_10 // Direct carry component
-x10 XOR y10 -> R_I_10 // intermediate XOR
-R_I_10 XOR C_09 -> z10
-R_I_10 AND C_09 -> C_II_10 // indirect carry component
-C_II_10 OR C_I_10 -> C_10 // carry  to next order
-```
+    ```
+    x10 AND y10 -> C_I_10 // Direct carry component
+    x10 XOR y10 -> R_I_10 // intermediate XOR
+    R_I_10 XOR C_09 -> z10 // resulting bit
+    R_I_10 AND C_09 -> C_II_10 // indirect carry component
+    C_II_10 OR C_I_10 -> C_10 // carry  to next order
+    ```
+- [Day 25](day%2025.py)
+  - this was just an easy task to calm
